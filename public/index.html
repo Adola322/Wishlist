@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <!-- Модалка пользователя -->
+    
     <div id="userModal" class="modal">
         <div class="modal-content">
             <h3>Новый пользователь</h3>
@@ -163,7 +163,7 @@
         </div>
     </div>
 
-    <!-- Модалка подтверждения удаления -->
+    
     <div id="confirmModal" class="modal">
         <div class="modal-content">
             <h3>⚠️ Подтверждение удаления</h3>
@@ -176,7 +176,7 @@
         </div>
     </div>
 
-    <!-- Модалка желания -->
+    
     <div id="wishModal" class="modal">
         <div class="modal-content">
             <h3 id="wishModalTitle">Новое желание</h3>
@@ -273,7 +273,7 @@
             await loadWishes();
         }
 
-        // Подтверждение удаления пользователя
+        
         function confirmDeleteUser(id, name) {
             userToDelete = id;
             const confirmModal = document.getElementById('confirmModal');
@@ -288,7 +288,7 @@
             userToDelete = null;
         }
 
-        // Удаление пользователя
+        
         async function deleteUser() {
             if (!userToDelete) return;
             
@@ -298,7 +298,7 @@
                 });
                 
                 if (res.ok) {
-                    // Если удалили текущего пользователя - сбрасываем выбор
+                    
                     if (currentUser && currentUser.id === userToDelete) {
                         currentUser = null;
                         document.getElementById('title').innerHTML = '✨ Все желания';
@@ -420,7 +420,7 @@
             await loadWishes();
         };
 
-        // Кнопка подтверждения удаления
+        
         document.getElementById('confirmDeleteBtn').onclick = () => {
             deleteUser();
         };

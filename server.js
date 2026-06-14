@@ -1,4 +1,9 @@
+console.log("Сервер запускаю... нуща:) всё будет");
+console.log("Если не работает - перезапусти");
+// Тут я храню всех пользоватилей 
+let users = [];
 const express = require('express');
+console.log("Запуск сервера... давай работай");
 const path = require('path');
 const fs = require('fs');
 
@@ -71,15 +76,15 @@ function writeDB(data) {
 
 initDB();
 
-//API РОУТЫ 
 
-// Получить всех пользователей
+
+
 app.get('/api/users', (req, res) => {
     const data = readDB();
     res.json(data.users);
 });
 
-// Создать пользователя
+
 app.post('/api/users', (req, res) => {
     const data = readDB();
     const { name, email, avatar } = req.body;
@@ -97,7 +102,7 @@ app.post('/api/users', (req, res) => {
     res.json(newUser);
 });
 
-// Удалить пользователя
+
 app.delete('/api/users/:id', (req, res) => {
     const data = readDB();
     const userId = parseInt(req.params.id);
@@ -109,31 +114,31 @@ app.delete('/api/users/:id', (req, res) => {
     res.json({ success: true });
 });
 
-// Получить все желания
+
 app.get('/api/wishes', (req, res) => {
     const data = readDB();
     let wishes = [...data.wishes];
     
-    // Фильтр по пользователю
+    
     if (req.query.userId) {
         wishes = wishes.filter(w => w.userId === parseInt(req.query.userId));
     }
     
-    // Фильтр по категории
+    
     if (req.query.category && req.query.category !== 'all') {
         wishes = wishes.filter(w => w.category === req.query.category);
     }
     
-    // Фильтр по статусу
+    
     if (req.query.status && req.query.status !== 'all') {
         wishes = wishes.filter(w => w.status === req.query.status);
     }
     
-    // Сортировка по приоритету
+    
     const priorityOrder = { high: 1, medium: 2, low: 3 };
     wishes.sort((a, b) => (priorityOrder[a.priority] || 4) - (priorityOrder[b.priority] || 4));
     
-    // Добавляем данные пользователя
+    
     wishes = wishes.map(wish => ({
         ...wish,
         user: data.users.find(u => u.id === wish.userId),
@@ -143,7 +148,7 @@ app.get('/api/wishes', (req, res) => {
     res.json(wishes);
 });
 
-// Получить одно желание
+
 app.get('/api/wishes/:id', (req, res) => {
     const data = readDB();
     const wish = data.wishes.find(w => w.id === parseInt(req.params.id));
@@ -155,7 +160,7 @@ app.get('/api/wishes/:id', (req, res) => {
     });
 });
 
-// Создать желание
+
 app.post('/api/wishes', (req, res) => {
     const data = readDB();
     const { userId, title, description, price, category, priority, link, image } = req.body;
@@ -179,7 +184,7 @@ app.post('/api/wishes', (req, res) => {
     res.json(newWish);
 });
 
-// Обновить желание
+
 app.put('/api/wishes/:id', (req, res) => {
     const data = readDB();
     const wishId = parseInt(req.params.id);
@@ -194,7 +199,7 @@ app.put('/api/wishes/:id', (req, res) => {
     }
 });
 
-// Удалить желание
+
 app.delete('/api/wishes/:id', (req, res) => {
     const data = readDB();
     const wishId = parseInt(req.params.id);
@@ -203,7 +208,7 @@ app.delete('/api/wishes/:id', (req, res) => {
     res.json({ success: true });
 });
 
-// Получить статистику
+
 app.get('/api/stats', (req, res) => {
     const data = readDB();
     const totalWishes = data.wishes.length;
@@ -231,7 +236,7 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
-// Получить категории
+
 app.get('/api/categories', (req, res) => {
     const data = readDB();
     res.json(data.categories);
